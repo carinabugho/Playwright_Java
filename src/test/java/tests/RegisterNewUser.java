@@ -11,7 +11,7 @@ public class RegisterNewUser extends BaseTest {
 
     @Test
     @Parameters("BaseURL")
-    public void registerUser(String baseUrl){
+    public void registerUser(String baseUrl) throws InterruptedException {
         RegistrationPage regPage = new RegistrationPage(page);
 
         String password = "qatester";
@@ -33,6 +33,7 @@ public class RegisterNewUser extends BaseTest {
 
 
         Assert.assertEquals(actualMessage, "WELCOME! YOU HAVE SIGNED UP SUCCESSFULLY.");
+        System.out.println("Email generated: " + generatedEmailAddress );
 
     }
 

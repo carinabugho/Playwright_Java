@@ -30,7 +30,9 @@ public class RegistrationPage {
     }
 
     // Actions
-    public void enterEmail(String email) {
+    public void enterEmail(String email) throws InterruptedException {
+        page.waitForSelector(signUpButton);
+        Thread.sleep(2000);
         page.fill(emailField, email);
     }
 
@@ -50,5 +52,7 @@ public class RegistrationPage {
         page.waitForSelector(notificationMessage);
         return page.locator(notificationMessage).innerText();
     }
+
+
 
 }

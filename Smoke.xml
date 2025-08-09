@@ -6,8 +6,8 @@
     <test name="Smoke Testing Suite" preserve-order="true">
         <classes>
             <class name="tests.RegisterNewUser"/>
-            <class name="tests.Logout"/>
-            <class name="tests.Login"/>
+
+            <class name="tests.OrderAnItem"/>
 
         </classes>
     </test>

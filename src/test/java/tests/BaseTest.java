@@ -4,6 +4,7 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Browser;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class BaseTest {
@@ -31,6 +32,13 @@ public class BaseTest {
     public void teardown(){
         if (browser != null) browser.close();
         if (playwright !=null) playwright.close();
+    }
+
+    public void assertContains(String actual, String expectedSubstring) {
+        Assert.assertTrue(
+                actual.contains(expectedSubstring),
+                "Expected '" + actual + "' to contain '" + expectedSubstring + "'"
+        );
     }
 
 
