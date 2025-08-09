@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Smoke">
+    <parameter name="BaseURL" value="https://demo.spreecommerce.org/"/>
+    <test name="Smoke Testing Suite" preserve-order="true">
+        <classes>
+            <class name="tests.RegisterNewUser"/>
+            <class name="tests.Logout"/>
+            <class name="tests.Login"/>
+
+        </classes>
+    </test>
+</suite>
