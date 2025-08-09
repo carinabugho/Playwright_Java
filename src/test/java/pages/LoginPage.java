@@ -34,6 +34,7 @@ public class LoginPage {
         page.click(loginButton);
     }
     public String getNotificationMessage() {
+        page.waitForSelector(notificationMessage);
         return page.locator(notificationMessage).innerText();
     }
 
