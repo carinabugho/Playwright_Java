@@ -61,6 +61,16 @@ public class CheckoutPage {
         return page.locator(itemPriceLabel).innerText();
     }
 
+
+    public void enterShippingAddress(String firstName, String lastName, String street, String apt, String city, String postal) {
+        enterFirstName(firstName);
+        enterLastName(lastName);
+        enterStreet(street);
+        enterApartment(apt);
+        enterCity(city);
+        enterPostal(postal);
+    }
+
     //Enter user details
     public void enterFirstName(String firstName){
         page.waitForSelector(firstNameField);

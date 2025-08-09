@@ -1,24 +1,31 @@
 package tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pages.AddItem;
 import pages.CheckoutPage;
-import pages.LoginPage;
+import utils.TestData;
 
 public class OrderAnItem extends BaseTest{
 
-    @Test
+
+    private String baseUrl;
+
+    @BeforeClass
     @Parameters("BaseURL")
-    public void addAnItem(String baseUrl) throws InterruptedException {
+    public void setBaseUrl(String baseUrl){
+        this.baseUrl = baseUrl;
+    }
+    @Test(dataProvider = "orderData", dataProviderClass = TestData.class)
+    public void OrderAnItemE2E(String product, String firstName, String lastName, String street, String apt, String city, String postal) throws InterruptedException {
         CheckoutPage checkoutPage = new CheckoutPage(page);
         AddItem addItem = new AddItem(page);
-
-        String firstName = "John";
         page.navigate(baseUrl);
 
-        addItem.searchAnItem("SHIRT");
+        addItem.searchAnItem(product);
         addItem.clickAnIItem();
 
         String itemName = addItem.getItemName();
@@ -47,36 +54,26 @@ public class OrderAnItem extends BaseTest{
         System.out.println("Price+ " +itemQty+ finalQtyCount);
 
         // Enter user details
-        checkoutPage.enterFirstName(firstName);
-        checkoutPage.enterLastName("Doe");
-        checkoutPage.enterStreet("1 Santa Claus Lane");
-        checkoutPage.enterApartment("Apartment");
-        checkoutPage.enterCity("Apartment");
-        checkoutPage.enterCity("North Pole");
-        checkoutPage.enterPostal("88888");
-
+        checkoutPage.enterShippingAddress(firstName, lastName, street, apt, city, postal);
         checkoutPage.clickSaveAndContinue();
         checkoutPage.FinalClickSaveAndContinue();
 
+        //Card number details
         checkoutPage.enterCardNun();
         checkoutPage.enterExpiry();
         checkoutPage.enterCardCVCField();
-
         checkoutPage.tapPayNowButton();
 
+        //Successful checkout order details
         String orderNumber = checkoutPage.getOrderNum();
         String thankYouMsg = checkoutPage.getThankYouUserMessage();
 
         //Report details
         System.out.println("Order number: "+ orderNumber);
-
         assertContains(thankYouMsg, firstName);
         checkoutPage.isOrderCompleteMsgDisplayed();
         checkoutPage.isPaidMsgDisplayed();
-
-
         assertContains(thankYouMsg, firstName);
-
 
     }
 
