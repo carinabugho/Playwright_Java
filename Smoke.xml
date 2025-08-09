@@ -8,7 +8,7 @@
             <class name="tests.RegisterNewUser"/>
             <class name="tests.Logout"/>
             <class name="tests.Login"/>
-
+            <class name="tests.OrderAnItem"/>
         </classes>
     </test>
 </suite>
