@@ -11,32 +11,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Install dependencies (skip tests)
+        run: mvn install -DskipTests
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      - name: Install Playwright Browsers
+        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install --with-deps"
 
-      - name: Run Tests
-        run: mvn test
+      - name: Install Xvfb (required for headed mode)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
 
-- name: Install Xvfb
-  run: sudo apt-get update && sudo apt-get install -y xvfb
-
-- name: Run Playwright tests in headed mode
-  run: xvfb-run mvn test
-
+      - name: Run Playwright tests
+        run: |
+          if [ "$CI" = "true" ]; then
+            echo "Running in CI with Xvfb..."
+            xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" mvn test
+          else
+            echo "Running locally without Xvfb..."
+            mvn test
+          fi
