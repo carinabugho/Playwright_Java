@@ -24,8 +24,7 @@ jobs:
         run: mvn install -DskipTests
 
       - name: Install Playwright Browsers
-        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install 
---with-deps"
+        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install --with-deps"
 
       - name: Install Xvfb (required for headed mode)
         run: |
